@@ -1,24 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Styled, { createGlobalStyle } from 'styled-components';
+
+import { WEBGL } from './utils/webgl';
+import Renderer from './renderer';
+import WebGLError from './components/WebGLError';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+`
+
+const Header = Styled.header`
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  padding: 0.25em;
+
+  a {
+    color: #09d3ac;
+  }
+`;
+
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+    <div>
+      <GlobalStyle />
+      <Header>
         <a
-          className="App-link"
-          href="https://reactjs.org"
+          href="https://github.com/hermanator608"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Brandon Herman
         </a>
-      </header>
+      </Header>
+      <div>
+        {
+          WEBGL.isWebGLAvailable()
+            ? <Renderer />
+            : <WebGLError error={WEBGL.getWebGLErrorMessage()} />
+        }
+      </div>
     </div>
   );
 }
